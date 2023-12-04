@@ -1,7 +1,7 @@
 {
   "name": "uinsuka-fess",
   "proxy": "https://uinsuka-fess.onrender.com",
-  "homepage": "http://localhost:3000",
+  "homepage": "https://uinsukafess-frontend.vercel.app/",
   "version": "0.1.0",
   "private": true,
   "scripts": {
