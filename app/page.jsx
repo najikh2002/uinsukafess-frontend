@@ -6,42 +6,43 @@ import { useState } from "react";
 
 const Home = () => {
   const [input, setInput] = useState("");
-
-  const handleSubmit = async () => {
-    if(input) {
-      useFetch();
-    } else {
-      alert("Tweetmu kosong!");
-    }
-
-  }
+  const [loading, setLoading] = useState(false);
 
   const useFetch = async () => {
     try {
       const apiUrl = "https://uinsuka-fess.onrender.com/createpost";
-
       const data = {
         text: input,
       };
-  
+
       await axios.post(apiUrl, data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-  
+
       alert("Tweet berhasil dipost!");
     } catch (error) {
       console.log(error);
       alert("Tweet gagal dipost!");
     }
-  }
+  };
 
-  return ( 
+  const handleSubmit = async () => {
+    if (input) {
+      setLoading(true); // Set status loading menjadi true saat mengirim permintaan
+      await useFetch();
+      setLoading(false); // Set status loading menjadi false setelah menerima respon
+    } else {
+      alert("Tweetmu kosong!");
+    }
+  };
+
+  return (
     <div className="flex flex-col w-full min-h-screen justify-start items-center pt-12 gap-6">
       <div className="flex flex-col justify-center items-center gap-3">
         {/* LOGO & TITLE */}
-        <Image 
+        <Image
           src={"/logo-uin.png"}
           alt="Logo UINSUKA"
           width={400}
@@ -53,11 +54,24 @@ const Home = () => {
 
       <div className="flex flex-col justify-center items-center gap-3">
         {/* TEXTAREA & SUBMIT */}
-        <textarea className="border-[1px] border-slate-400 p-2" name="" id="" cols="30" rows="4" onChange={e => setInput(e.target.value)} value={input} />
-        <button className="bg-sky-500 text-white tracking-wide font-semibold flex justify-center items-center w-[100px] h-[40px] rounded-full z-30" onClick={handleSubmit}>Tweet!</button>
+        <textarea
+          className="border-[1px] border-slate-400 p-2"
+          name=""
+          id=""
+          cols="30"
+          rows="4"
+          onChange={(e) => setInput(e.target.value)}
+          value={input}
+        />
+        <button
+          className="bg-sky-500 text-white tracking-wide font-semibold flex justify-center items-center w-[100px] h-[40px] rounded-full z-30"
+          onClick={handleSubmit}
+        >
+          {loading ? 'Loading...' : 'Tweet!'}
+        </button>
       </div>
     </div>
-   );
-}
- 
+  );
+};
+
 export default Home;
