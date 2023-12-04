@@ -54,7 +54,7 @@ const Home = () => {
       <div className="flex flex-col justify-center items-center gap-3">
         {/* TEXTAREA & SUBMIT */}
         <textarea className="border-[1px] border-slate-400 p-2" name="" id="" cols="30" rows="4" onChange={e => setInput(e.target.value)} value={input} />
-        <button className="bg-sky-500 text-white tracking-wide font-semibold flex justify-center items-center w-[100px] h-[40px] rounded-full" onClick={handleSubmit}>Tweet!</button>
+        <button className="bg-sky-500 text-white tracking-wide font-semibold flex justify-center items-center w-[100px] h-[40px] rounded-full z-30" onClick={handleSubmit}>Tweet!</button>
       </div>
     </div>
    );
