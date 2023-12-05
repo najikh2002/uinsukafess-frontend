@@ -1,38 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import axios from "axios";
 import { useState } from "react";
+import { createPost } from "./api";
 
 const Home = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const useFetch = async () => {
-    try {
-      const apiUrl = "https://uinsuka-fess.onrender.com/createpost";
-      const data = {
-        text: input,
-      };
-
-      await axios.post(apiUrl, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      alert("Tweet berhasil dipost!");
-    } catch (error) {
-      console.log(error);
-      alert("Tweet gagal dipost!");
-    }
-  };
-
   const handleSubmit = async () => {
     if (input) {
-      setLoading(true); // Set status loading menjadi true saat mengirim permintaan
-      await useFetch();
-      setLoading(false); // Set status loading menjadi false setelah menerima respon
+      try {
+        setLoading(true);
+        await createPost(input);
+        alert("Tweet berhasil dipost!");
+      } catch (error) {
+        console.error(error);
+        alert("Tweet gagal dipost!");
+      } finally {
+        setLoading(false);
+      }
     } else {
       alert("Tweetmu kosong!");
     }
@@ -48,6 +35,7 @@ const Home = () => {
           width={400}
           height={400}
           priority={true}
+          className="h-auto w-auto"
         />
         <h3 className="text-[20px] font-bold tracking-wide">UINSUKA FESS</h3>
       </div>
@@ -56,8 +44,6 @@ const Home = () => {
         {/* TEXTAREA & SUBMIT */}
         <textarea
           className="border-[1px] border-slate-400 p-2"
-          name=""
-          id=""
           cols="30"
           rows="4"
           onChange={(e) => setInput(e.target.value)}
